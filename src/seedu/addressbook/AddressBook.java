@@ -182,6 +182,17 @@ public class AddressBook {
      * List of all persons in the address book.
      */
     private static final ArrayList<String[]> ALL_PERSONS = new ArrayList<>();
+    // to initialise the properties of a person
+    private static final String PERSON_PROPERTY_NAME = null;
+    private static final String PERSON_PROPERTY_EMAIL = null;
+    private static final Integer PERSON_PROPERTY_PHONE = 0;
+
+    private enum PersonProperty  {PERSON_PROPERTY_NAME, PERSON_PROPERTY_EMAIL, PERSON_PROPERTY_PHONE};
+
+    HashMap<PersonProperty,String> personHashmap = new HashMap<>();
+    //personHashmap.put(PERSON_PROPERTY_NAME , PersonProperty.NAME);
+    //personHashmap.put(PERSON_PROPERTY_EMAIL, PersonProperty.EMAIL);
+    //personHashmap.put(PERSON_PROPERTY_PHONE, PersonProperty.PHONE);
 
     /**
      * Stores the most recent list of persons shown to the user as a result of a user command.
