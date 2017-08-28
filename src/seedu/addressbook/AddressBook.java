@@ -14,14 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /*
  * NOTE : =============================================================
@@ -110,6 +103,12 @@ public class AddressBook {
                                         + "keywords (case-sensitive) and displays them as a list with index numbers.";
     private static final String COMMAND_FIND_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
+
+
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Sort all persons by alphabetical order";
+    private static final String COMMAND_SORT_PARAMATERS = "KEYWORD [MORE KEYWORDS]";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD + "sort";
 
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
@@ -384,6 +383,8 @@ public class AddressBook {
             return executeAddPerson(commandArgs);
         case COMMAND_FIND_WORD:
             return executeFindPersons(commandArgs);
+        case COMMAND_SORT_WORD:
+            return executeSorting(commandArgs);
         case COMMAND_LIST_WORD:
             return executeListAllPersonsInAddressBook();
         case COMMAND_DELETE_WORD:
@@ -441,6 +442,26 @@ public class AddressBook {
         return getMessageForSuccessfulAddPerson(personToAdd);
     }
 
+    /**
+     * Sorts the lists of person (specified by the command args) to the address book.
+     * The entire command arguments string is shown as a list categorized by alphabetical order.
+     *
+     * @param commandArgs full command args string from the user
+     * @return feedback display message for the operation result
+     */
+    private static String executeSorting(String commandArgs) {
+        final Set<String> keywords = extractKeywordsFromFindPersonArgs(commandArgs);
+        final ArrayList<String[]> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
+        Collections.sort(personsFound, new Comparator<String[]>() {
+            @Override
+            public int compare(String[] o1, String[] o2) {
+                int value = o1[0].compareTo(o2[0]);
+                return value;
+            }
+        });
+        showToUser(personsFound);
+        return getMessageForPersonsDisplayedSummary(personsFound);
+    }
     /**
      * Constructs a feedback message for a successful add person command execution.
      *
