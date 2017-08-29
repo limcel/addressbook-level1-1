@@ -110,6 +110,11 @@ public class AddressBook {
     private static final String COMMAND_SORT_PARAMATERS = "KEYWORD [MORE KEYWORDS]";
     private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD + "sort";
 
+    private static final String COMMAND_EDIT_WORD = "edit";
+    private static final String COMMAND_EDIT_DESC = "Edit person properties in arraylist";
+    private static final String COMMAND_EDIT_PARAMATERS = "KEYWORD [MORE KEYWORDS]";
+    private static final String COMMAND_EDIT_EXAMPLE = COMMAND_SORT_WORD + "sort";
+
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
@@ -383,6 +388,8 @@ public class AddressBook {
             return executeAddPerson(commandArgs);
         case COMMAND_FIND_WORD:
             return executeFindPersons(commandArgs);
+        case COMMAND_EDIT_WORD:
+            return executeEditPerson(commandArgs);
         case COMMAND_SORT_WORD:
             return executeSorting(commandArgs);
         case COMMAND_LIST_WORD:
@@ -450,8 +457,7 @@ public class AddressBook {
      * @return feedback display message for the operation result
      */
     private static String executeSorting(String commandArgs) {
-        final Set<String> keywords = extractKeywordsFromFindPersonArgs(commandArgs);
-        final ArrayList<String[]> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
+        ArrayList<String[]> personsFound = getAllPersonsInAddressBook();
         Collections.sort(personsFound, new Comparator<String[]>() {
             @Override
             public int compare(String[] o1, String[] o2) {
